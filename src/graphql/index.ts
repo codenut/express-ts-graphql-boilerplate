@@ -7,14 +7,23 @@ import { UserResolver } from "./user/user.resolver";
 import { ResolveTimeMiddleware } from "./middlewares";
 import { AuthService } from "../services/auth.service";
 
-const customAuthChecker = ({ root, args, context, info }, roles) => {
+const customAuthChecker = (
+  { root, context }: { root: any; context: any },
+  roles: string[]
+) => {
   if (roles.includes("OWNER")) {
     return root.id === context.user.id;
   }
   return !!context.user;
 };
 
-const authenticateRequest = async (resolve, root, args, context, info) => {
+const authenticateRequest = async (
+  resolve: any,
+  root: any,
+  args: any,
+  context: any,
+  info: any
+) => {
   if (!context.user) {
     const authService = Container.get(AuthService);
     const idToken = context.headers.authorization.split("Bearer ")[1];

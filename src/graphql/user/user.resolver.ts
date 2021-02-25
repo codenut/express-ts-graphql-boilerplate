@@ -11,7 +11,6 @@ import {
 import { Service } from "typedi";
 
 import { User } from "../../models/user.model";
-import { UserRepository } from "../../repositories/user.repository";
 import { UserService } from "../../services/user.service";
 
 @Service()
@@ -27,15 +26,20 @@ class UpdateUserInput implements Partial<User> {
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Query(returns => User)
+  @Query(() => User)
   @Authorized()
-  me(@Ctx() ctx) {
+  me(@Ctx() ctx: any): User {
+    console.log("me");
     return ctx.user;
   }
 
-  @Mutation(returns => User)
+  @Mutation(() => User)
   @Authorized()
-  async updateUser(@Arg("data") updateUserInput: UpdateUserInput, @Ctx() ctx) {
+  async updateUser(
+    @Arg("data") updateUserInput: UpdateUserInput,
+    @Ctx() ctx: any
+  ): Promise<User> {
+    console.log("a", ctx);
     const user = await this.userService.findOne({
       id: ctx.user.id
     });

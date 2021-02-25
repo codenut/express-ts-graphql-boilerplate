@@ -1,4 +1,4 @@
-import { EntityRepository, Repository, getCustomRepository } from "typeorm";
+import { EntityRepository, Repository } from "typeorm";
 import { Service } from "typedi";
 
 import { User } from "../models/user.model";
