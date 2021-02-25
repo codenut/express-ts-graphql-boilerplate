@@ -1,0 +1,74 @@
+<html>
+<head>
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+</head>
+
+<body>
+    <button onclick="google_sign_in()">Google Sign in</button>
+    <button onclick="fb_sign_in()">Facebook Sign in</button>
+</body>
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyC4kERhIp-VniOukq-vXWM5ruEVbCoWZCg",
+    authDomain: "sample-dev.firebaseapp.com",
+    projectId: "sample-dev",
+    storageBucket: "sample-dev.appspot.com",
+    messagingSenderId: "325053779466",
+    appId: "1:325053779466:web:889765f0b4ea698d3259f3",
+    measurementId: "G-J0HFX9NEN9"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  function google_sign_in() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = result.credential.accessToken;
+      var idToken = result.credential.idToken;
+      var user = result.user;
+
+      var idtoken = firebase.auth().currentUser.getIdToken();
+      console.log('TOKEN', idtoken)
+    }).catch(function(error) {
+      console.log(error);
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  }
+
+  function fb_sign_in() {
+    var provider = new firebase.auth.FacebookAuthProvider();
+    provider.addScope('email');
+
+    firebase.auth().signInWithPopup(provider).then(async function(result) {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = result.credential.accessToken;
+      var idToken = result.credential.idToken;
+      var user = result.user;
+
+      var idtoken = await firebase.auth().currentUser.getIdToken();
+      console.log('TOKEN', idtoken)
+    }).catch(function(error) {
+      console.log(error);
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  }
+</script>
+</html>

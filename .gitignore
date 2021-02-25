@@ -1,0 +1,6 @@
+node_modules
+.idea
+
+ormconfig.json
+.env
+config/

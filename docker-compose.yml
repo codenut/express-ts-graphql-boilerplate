@@ -1,0 +1,29 @@
+version: "2"
+
+services:
+  sample_server:
+    env_file:
+      - .env
+    image: node:15
+    working_dir: /mnt
+    volumes:
+      - .:/mnt
+    depends_on:
+      - sample_db
+    ports:
+      - 3001:3001
+    command: yarn start
+
+  sample_dbdata:
+    image: busybox
+    volumes:
+      - /var/lib/postgresql/data
+
+  sample_db:
+    image: postgres:10
+    volumes_from:
+      - sample_dbdata
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db
